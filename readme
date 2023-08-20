@@ -1,0 +1,2 @@
+ docker exec -it postgres-db  psql -U btiwari -d employee
+ 

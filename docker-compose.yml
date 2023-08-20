@@ -1,0 +1,28 @@
+version: '3.1'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-db
+    environment:
+      POSTGRES_USER: btiwari
+      POSTGRES_PASSWORD: Password@123
+      POSTGRES_DB: employee
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./data:/var/lib/postgresql/data  # For data persistence
+
+  nodejs:
+    build:
+      context: ./server  # Use the Dockerfile in the "server" directory
+    container_name: nodejs-app
+    environment:
+      DB_USER: btiwari
+      DB_PASSWORD: Password@123
+      DB_NAME: employee
+      DB_HOST: postgres  # The name of the PostgreSQL service
+    ports:
+      - "3001:3001"
+    depends_on:
+      - postgres  # Ensure the "postgres" service is started before the "nodejs" service
